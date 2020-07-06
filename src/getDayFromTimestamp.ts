@@ -1,0 +1,1 @@
+export default (timestamp: number): number => (timestamp / 1000 / 60 / 60 / 24) | 0;
