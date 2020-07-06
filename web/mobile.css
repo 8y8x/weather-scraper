@@ -1,0 +1,37 @@
+@media only screen and (max-width: 1250px) {
+    body {
+        overflow-y: auto;
+    }
+    
+    div.page-top div.temp-container {
+        float: none;
+        height: 300px;
+        width: 100%;
+    }
+
+    div.page-top div.text-container {
+        height: 150px;
+        padding: 80px 0;
+    }
+
+    div.page-top div.graph-container {
+        float: none;
+        height: 500px;
+        margin: 0 auto;
+        width: 750px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    div.page-top div.temp-container {
+        height: 300px;
+        position: absolute;
+        top: calc(50vh - 150px);
+        left: 0;
+        width: 100%;
+    }
+
+    div.page-top div.graph-container {
+        display: none;
+    }
+}
