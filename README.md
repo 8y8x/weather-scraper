@@ -3,15 +3,9 @@ This collects the current temperature from The Weather Network every hour and co
 
 It's worth mentioning this only collects data about Vancouver.
 
-## Install dependencies:
+## Starting the project:
 ```bash
-npm i -g typescript
-npm i @types/node node-fetch
-```
-
-## Start the project:
-```bash
-npm test
+python index.py
 ```
 
 Once running, you can view the graph in the browser at http://127.0.0.1:8000 . You can leave it running on a server and it will continue to collect data.
