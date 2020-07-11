@@ -32,6 +32,17 @@ addEventListener('load', async () => {
             throw new Error(error);
     }
 
+    let graphbox = document.getElementById('graph-box');
+    function showTopbar() {
+        if (graphbox.classList.contains('no-topbar'))
+            graphbox.classList.remove('no-topbar');
+    }
+
+    function hideTopbar() {
+        if (!graphbox.classList.contains('no-topbar'))
+            graphbox.classList.add('no-topbar');
+    }
+
     let graphViewButtons = [];
     class GraphViewButton {
 
@@ -64,7 +75,7 @@ addEventListener('load', async () => {
             assert(Object.keys(GraphViewType).find(x => GraphViewType[x] === type),
                    'Parameter #2 must be a GraphViewType');
 
-            this._disabled = false;
+            this._disabled = element.classList.contains('disabled');
             this._element = element;
             this._type = type;
 
@@ -78,14 +89,10 @@ addEventListener('load', async () => {
         }
 
         select() {
-            if (this.disabled)
-                return;
-
             if (this.type === GraphViewType.ALL_TIME)
                 renderer.applyGraph(trueGraph, this.type);
             else
-                renderer.applyGraph(trueGraph.slice(trueGraph.length - this.type),
-                                    this.type);
+                renderer.applyGraph(trueGraph.slice(trueGraph.length - this.type), this.type);
 
             // deselect all other buttons
             graphViewButtons.forEach(x => x !== this && x.deselect());
@@ -174,15 +181,24 @@ addEventListener('load', async () => {
             assert(Object.keys(GraphViewType).find(x => GraphViewType[x] === type),
                    'Parameter #2 must be a GraphViewType');
 
+            if (graph.length >= type && type !== GraphViewType.ALL_TIME)
+                graph = graph.slice(graph.length - type);
+
             this._graph = graph;
             this._graphViewType = type;
 
+            let showButtons = 0;
             graphViewButtons.forEach(x => {
-                if (graph.length >= x.type && x.disabled)
-                    x.disabled = false;
-                else if (graph.length < x.type && !x.disabled)
-                    x.disabled = true;
-            })
+                if (graph.length >= x.type)
+                    ++showButtons;
+            });
+
+            console.log(showButtons);
+
+            if (showButtons >= 2)
+                showTopbar();
+            else
+                hideTopbar()
         }
 
         connectPoints() {
@@ -193,12 +209,10 @@ addEventListener('load', async () => {
 
             let spacing = this.getGraphSpacing(),
                 rect = this.canvas.getBoundingClientRect(),
-                canvasWidth = rect.width,
                 canvasHeight = rect.height - 20,
                 highestTemp = getPeakTemperature(this.graph),
                 lowestTemp = getPeakTemperature(this.graph, true),
-                oldestDay = this.graph[0].day,
-                recentDay = this.graph[this.graph.length - 1].day;
+                oldestDay = this.graph[0].day;
 
             ctx.strokeStyle = '#92e';
             ctx.lineWidth = 2;
@@ -234,6 +248,7 @@ addEventListener('load', async () => {
             ctx.fillStyle = '#000';
             ctx.globalAlpha = 0.2;
             ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
 
             ctx.fillText('No graph data to display :(', width / 2, (265 - 24) / 2);
 
@@ -334,7 +349,7 @@ addEventListener('load', async () => {
         mousemoveEvent(/** @type {MouseEvent} **/ ev) {
             if (this.graph.length <= 1)
                 return;
-
+                
             let x = ev.offsetX,
                 spacing = this.getGraphSpacing();
 
@@ -442,7 +457,7 @@ addEventListener('load', async () => {
     }
 
     /** @type {Renderer} */
-    const renderer = new Renderer($('graph'), $('graph-side'));
+    window.renderer = new Renderer($('graph'), $('graph-side'));
 
     let button_all_time = new GraphViewButton($('graph-all-time'), GraphViewType.ALL_TIME),
         button_7d = new GraphViewButton($('graph-7d'), GraphViewType.SEVEN_DAYS),
