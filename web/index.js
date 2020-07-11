@@ -186,7 +186,7 @@ addEventListener('load', async () => {
         }
 
         connectPoints() {
-            if (this.graph.length == 0)
+            if (this.graph.length <= 1)
                 return;
 
             const ctx = this.ctx;
@@ -241,7 +241,7 @@ addEventListener('load', async () => {
         }
 
         drawLines() {
-            if (this.graph.length == 0)
+            if (this.graph.length <= 1)
                 return;
 
             const ctx = this.ctx;
@@ -298,7 +298,7 @@ addEventListener('load', async () => {
         }
 
         drawTopBottom() {
-            if (this.graph.length == 0)
+            if (this.graph.length <= 1)
                 return;
 
             const ctx = this.ctx;
@@ -332,6 +332,9 @@ addEventListener('load', async () => {
         }
 
         mousemoveEvent(/** @type {MouseEvent} **/ ev) {
+            if (this.graph.length <= 1)
+                return;
+
             let x = ev.offsetX,
                 spacing = this.getGraphSpacing();
 
@@ -347,7 +350,7 @@ addEventListener('load', async () => {
                 this.ctx.save();
 
                 this.clearCanvas();
-                if (this.graph.length === 0)
+                if (this.graph.length <= 1)
                     this.drawEmptyGraph();
                 else {
                     this.drawLines();
