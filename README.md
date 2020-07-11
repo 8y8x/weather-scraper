@@ -1,11 +1,12 @@
 # weather-scraper
-This collects the current temperature from The Weather Network every hour and combines the data into a list of daily peak temperatures. You can then view the graph in your browser.
+This project will collect daily peak temperatures from The Weather Network for Vancouver, as well as give a nice website to view it on.
 
-It's worth mentioning this only collects data about Vancouver.
+## Prerequisites:
+- Python 3+
 
 ## Starting the project:
 ```bash
 python index.py
 ```
 
-Once running, you can view the graph in the browser at http://127.0.0.1:8000 . You can leave it running on a server and it will continue to collect data.
+Once running, you can view the graph in the browser at http://127.0.0.1:8000 . You can leave it running on a Raspberry Pi, for example, and it will continue to collect data for you.
