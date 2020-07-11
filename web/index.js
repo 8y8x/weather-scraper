@@ -332,6 +332,9 @@ addEventListener('load', async () => {
         }
 
         mousemoveEvent(/** @type {MouseEvent} **/ ev) {
+            if (this.graph.length <= 1)
+                return;
+
             let x = ev.offsetX,
                 spacing = this.getGraphSpacing();
 
