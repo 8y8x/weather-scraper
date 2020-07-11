@@ -1,4 +1,5 @@
 import json
+import os
 import time
 
 from http import server
@@ -7,6 +8,14 @@ from urllib import request as req
 
 
 
+if not os.path.exists('./storage'):
+    os.makedirs('storage')
+
+if not os.path.exists('./storage/temperatures.json'):
+    with open('./storage/temperatures.json', mode='w') as file:
+        file.write('[]')
+        file.close()
+        
 def getDayFromTimestamp(timestamp):
     return timestamp / 60 / 60 / 24
 
