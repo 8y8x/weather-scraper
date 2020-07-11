@@ -129,8 +129,6 @@ def updateWeatherLoop():
     except Exception as err:
         raise err
 
-updateWeatherThread = Thread(target = updateWeatherLoop)
-updateWeatherThread.daemon = True
-updateWeatherThread.start()
+Thread(target = updateWeatherLoop, daemon = True).start()
     
 server.HTTPServer(('127.0.0.1', 8000), HttpHandler).serve_forever()
