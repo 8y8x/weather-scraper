@@ -140,4 +140,4 @@ def updateWeatherLoop():
 
 Thread(target = updateWeatherLoop, daemon = True).start()
     
-server.HTTPServer(('127.0.0.1', 8000), HttpHandler).serve_forever()
+server.HTTPServer(('', 8000), HttpHandler).serve_forever()
